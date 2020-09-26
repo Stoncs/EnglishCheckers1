@@ -1,12 +1,11 @@
 package sample;
 import static sample.ColorOrNothing.WHITE;
 import static sample.ColorOrNothing.BLACK;
-import static sample.ColorOrNothing.NOTHING;
 
 public class Tile {
     private ColorOrNothing color;
     private boolean queen;
-    private boolean attack;
+    private boolean mustAttack;
     private boolean light;
     public int getKey() {
         if (color == WHITE) {
@@ -51,7 +50,7 @@ public class Tile {
     public Tile(ColorOrNothing color, boolean queen) {
         this.color = color;
         this.queen = queen;
-        this.attack = false;
+        this.mustAttack = false;
         this.light = false;
     }
 
@@ -71,11 +70,11 @@ public class Tile {
         return color;
     }
 
-    public void setAttack(boolean attack) {
-        this.attack = attack;
+    public void setMustAttack(boolean mustAttack) {
+        this.mustAttack = mustAttack;
     }
 
-    public boolean getAttack() { return attack;}
+    public boolean getMustAttack() { return mustAttack;}
 
     public boolean getLight() {
         return light;

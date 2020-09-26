@@ -19,8 +19,6 @@ public class Controller {
     @FXML
     GridPane gridPane;
 
-    Map<Integer, Image> images = new HashMap<>();
-
     @FXML
     void cell1(MouseEvent event) {gameProcess(0, 1); updateUI();}
     @FXML
@@ -86,20 +84,15 @@ public class Controller {
     @FXML
     void cell32(MouseEvent event) {gameProcess(7, 6); updateUI();}
 
-
-
-
-
+    Map<Integer, Image> images = new HashMap<>();
 
     public void updateUI() {
         for(Node n : gridPane.getChildren()){
             ImageView img = (ImageView) n;
-            int x = GridPane.getRowIndex(n);
-            int y = GridPane.getColumnIndex(n);
-            int key = GameBoard.board[GridPane.getRowIndex(n)][GridPane.getColumnIndex(n)].getKey();
             img.setImage(images.get(GameBoard.board[GridPane.getRowIndex(n)][GridPane.getColumnIndex(n)].getKey()));
         }
     }
+
     public Controller() {
         try {
             images.put(0, new Image(new FileInputStream("src\\images\\field.png")));
@@ -108,8 +101,8 @@ public class Controller {
             images.put(3, new Image(new FileInputStream("src\\images\\blackChecker.png")));
             images.put(4, new Image(new FileInputStream("src\\images\\blackCheckerYellow.png")));
             images.put(5, new Image(new FileInputStream("src\\images\\whiteCheckerQ.png")));
-            images.put(7, new Image(new FileInputStream("src\\images\\whiteCheckerQYellow.png")));
-            images.put(6, new Image(new FileInputStream("src\\images\\blackCheckerQ.png")));
+            images.put(6, new Image(new FileInputStream("src\\images\\whiteCheckerQYellow.png")));
+            images.put(7, new Image(new FileInputStream("src\\images\\blackCheckerQ.png")));
             images.put(8, new Image(new FileInputStream("src\\images\\blackCheckerQYellow.png")));
             images.put(9, new Image(new FileInputStream("src\\images\\yellow.png")));
 
