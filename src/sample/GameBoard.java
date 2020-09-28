@@ -57,6 +57,10 @@ public class GameBoard {
                     } else {
                         board[x][y].setColor(BLACK);
                     }
+                    if (board[oldX][oldY].getQueen()) {
+                        board[oldX][oldY].setQueen(false);
+                        board[x][y].setQueen(true);
+                    }
                     board[oldX][oldY].setColor(NOTHING);
                     if (y < oldY) {
                         if (x < oldX) {
@@ -136,6 +140,10 @@ public class GameBoard {
                     board[x][y].setColor(WHITE);
                 } else {
                     board[x][y].setColor(BLACK);
+                }
+                if (board[oldX][oldY].getQueen()) {
+                    board[oldX][oldY].setQueen(false);
+                    board[x][y].setQueen(true);
                 }
                 board[oldX][oldY].setColor(NOTHING);
                 cleanLight();
