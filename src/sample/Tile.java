@@ -47,11 +47,18 @@ public class Tile {
     }
 
 
-    public Tile(ColorOrNothing color, boolean queen) {
+    public Tile(ColorOrNothing color) {
         this.color = color;
-        this.queen = queen;
+        this.queen = false;
         this.mustAttack = false;
         this.light = false;
+    }
+
+    public Tile(ColorOrNothing color, boolean queen, boolean mustAttack, boolean light) {
+        this.color = color;
+        this.queen = queen;
+        this.mustAttack = mustAttack;
+        this.light = light;
     }
 
     public void setQueen(boolean queen) {
@@ -82,5 +89,13 @@ public class Tile {
 
     public void setLight(boolean light) {
         this.light = light;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tile obj = (Tile) o;
+        return color == obj.color && queen == obj.queen && mustAttack == obj.mustAttack && light == obj.light;
     }
 }

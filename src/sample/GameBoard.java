@@ -5,26 +5,26 @@ import static sample.ColorOrNothing.BLACK;
 import static sample.ColorOrNothing.NOTHING;
 
 public class GameBoard {
-    static Tile[][] board = new Tile[8][8];
-    private static boolean isWhiteTurn = false;
+    public static Tile[][] board = new Tile[8][8];
+    public static boolean isWhiteTurn = false;
     private static boolean mustAttack = false;
-    private static int oldX;
-    private static int oldY;
+    private static int oldX = 0;
+    private static int oldY = 1;
 
     static {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
-                if ((i + j) % 2 == 1) board[i][j] = new Tile(BLACK, false);
+                if ((i + j) % 2 == 1) board[i][j] = new Tile(BLACK);
             }
         }
         for (int i = 3; i <= 4; i++) {
             for (int j = 0; j <= 7; j++) {
-                board[i][j] = new Tile(NOTHING, false);
+                board[i][j] = new Tile(NOTHING);
             }
         }
         for (int i = 5; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
-                if ((i + j) % 2 == 1) board[i][j] = new Tile(WHITE, false);
+                if ((i + j) % 2 == 1) board[i][j] = new Tile(WHITE);
             }
         }
     }
@@ -32,7 +32,7 @@ public class GameBoard {
     public static void gameProcess(int x, int y) {
         ColorOrNothing color = board[x][y].getColor();
         if (isAttack()) {
-            if (mustAttack == board[oldX][oldY].getMustAttack()) {
+            if (mustAttack == board[x][y].getMustAttack()) {
                 if (color == WHITE && isWhiteTurn && canAttackWhite(x, y)) {
                     if (board[oldX][oldY].getColor() == WHITE) {
                         cleanLight();
@@ -51,61 +51,64 @@ public class GameBoard {
                     oldY = y;
                     board[x][y].setLight(true);
                 }
-                if (color == NOTHING && board[x][y].getLight()) {
-                    if (isWhiteTurn) {
-                        board[x][y].setColor(WHITE);
-                    } else {
-                        board[x][y].setColor(BLACK);
-                    }
-                    if (board[oldX][oldY].getQueen()) {
-                        board[oldX][oldY].setQueen(false);
-                        board[x][y].setQueen(true);
-                    }
-                    board[oldX][oldY].setColor(NOTHING);
-                    if (y < oldY) {
-                        if (x < oldX) {
-                            board[oldX - 1][oldY - 1].setColor(NOTHING);
-                            board[oldX - 1][oldY - 1].setQueen(false);
-                        } else {
-                            board[oldX + 1][oldY - 1].setColor(NOTHING);
-                            board[oldX + 1][oldY - 1].setQueen(false);
-                        }
-                    } else {
-                        if (x < oldX) {
-                            board[oldX - 1][oldY + 1].setColor(NOTHING);
-                            board[oldX - 1][oldY + 1].setQueen(false);
-                        } else {
-                            board[oldX + 1][oldY + 1].setColor(NOTHING);
-                            board[oldX + 1][oldY + 1].setQueen(false);
-                        }
-                    }
-                    if (isWhiteTurn) {
-                        if (canAttackWhite(x, y)) {
-                            board[oldX][oldY].setMustAttack(false);
-                            board[x][y].setMustAttack(true);
-                            mustAttack = true;
-                        } else {
-                            board[oldX][oldY].setMustAttack(false);
-                            mustAttack = false;
-                            endOfBoard(x, y);
-                            isWhiteTurn = !isWhiteTurn;
-                        }
-                    } else {
-                        if (canAttackBlack(x, y)) {
-                            board[oldX][oldY].setMustAttack(false);
-                            board[x][y].setMustAttack(true);
-                            mustAttack = true;
-                        } else {
-                            board[oldX][oldY].setMustAttack(false);
-                            mustAttack = false;
-                            endOfBoard(x, y);
-                            isWhiteTurn = !isWhiteTurn;
-                        }
-                    }
-                    oldX = x;
-                    oldY = y;
-                    cleanLight();
+            }
+            if (color == NOTHING && board[x][y].getLight()) {
+                if (isWhiteTurn) {
+                    board[x][y].setColor(WHITE);
+                } else {
+                    board[x][y].setColor(BLACK);
                 }
+
+                if (board[oldX][oldY].getQueen()) {
+                    board[oldX][oldY].setQueen(false);
+                    board[x][y].setQueen(true);
+                }
+                board[oldX][oldY].setColor(NOTHING);
+
+                if (y < oldY) {
+                    if (x < oldX) {
+                        board[oldX - 1][oldY - 1].setColor(NOTHING);
+                        board[oldX - 1][oldY - 1].setQueen(false);
+                    } else {
+                        board[oldX + 1][oldY - 1].setColor(NOTHING);
+                        board[oldX + 1][oldY - 1].setQueen(false);
+                    }
+                } else {
+                    if (x < oldX) {
+                        board[oldX - 1][oldY + 1].setColor(NOTHING);
+                        board[oldX - 1][oldY + 1].setQueen(false);
+                    } else {
+                        board[oldX + 1][oldY + 1].setColor(NOTHING);
+                        board[oldX + 1][oldY + 1].setQueen(false);
+                    }
+                }
+
+                if (isWhiteTurn) {
+                    if (canAttackWhite(x, y)) {
+                        board[oldX][oldY].setMustAttack(false);
+                        board[x][y].setMustAttack(true);
+                        mustAttack = true;
+                    } else {
+                        board[oldX][oldY].setMustAttack(false);
+                        mustAttack = false;
+                        endOfBoard(x, y);
+                        isWhiteTurn = !isWhiteTurn;
+                    }
+                } else {
+                    if (canAttackBlack(x, y)) {
+                        board[oldX][oldY].setMustAttack(false);
+                        board[x][y].setMustAttack(true);
+                        mustAttack = true;
+                    } else {
+                        board[oldX][oldY].setMustAttack(false);
+                        mustAttack = false;
+                        endOfBoard(x, y);
+                        isWhiteTurn = !isWhiteTurn;
+                    }
+                }
+                oldX = x;
+                oldY = y;
+                cleanLight();
             }
         } else {
             if (color == WHITE && isWhiteTurn) {
@@ -201,7 +204,7 @@ public class GameBoard {
         return result;
     }
 
-    //могут ли чёрная шашка рубить
+    //мо;tn ли чёрная шашка рубить
     private static boolean canAttackBlack(int x, int y) {
         boolean result = false;
         if (canMove(x + 2, y - 2) && board[x + 1][y - 1].getColor() != BLACK && board[x + 1][y - 1].getColor() != NOTHING) {
